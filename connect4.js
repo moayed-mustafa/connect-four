@@ -7,7 +7,6 @@
 
 let WIDTH = 7;
 let HEIGHT = 6;
-
 let currPlayer = 1; // active player: 1 or 2
 let board = []; // array of rows, each row is array of cells  (board[y][x])
 
@@ -94,9 +93,8 @@ function handleClick(evt) {
   }
 
   // place piece in board and add to HTML table
-  currPlayer===1? board[y][x] = 'red' : board[y][x] = 'blue';
+  currPlayer===1? board[y][x] = 1 : board[y][x] = 2;
   placeInTable(y, x);
-  // console.log(board);
 
 
   // check for win
@@ -110,7 +108,6 @@ function handleClick(evt) {
   }
 
   // switch players
-  // TODO: switch currPlayer 1 <-> 2
   currPlayer === 1 ? currPlayer = 2 : currPlayer = 1;
 }
 
@@ -118,10 +115,6 @@ function handleClick(evt) {
 
 function checkForWin() {
   function _win(cells) {
-    // Check four cells to see if they're all color of current player
-    //  - cells: list of four (y, x) cells
-    //  - returns true if all are legal coordinates & all match currPlayer
-
     return cells.every(
       ([y, x]) =>
         y >= 0 &&
@@ -140,13 +133,12 @@ function checkForWin() {
       let vert = [[y, x], [y + 1, x], [y + 2, x], [y + 3, x]];
       let diagDR = [[y, x], [y + 1, x + 1], [y + 2, x + 2], [y + 3, x + 3]];
       let diagDL = [[y, x], [y + 1, x - 1], [y + 2, x - 2], [y + 3, x - 3]];
+      if (_win(horiz) || _win(vert) || _win(diagDR) || _win(diagDL)) { return true; }
 
-      if (_win(horiz) || _win(vert) || _win(diagDR) || _win(diagDL)) {
-        return true;
-      }
     }
   }
 }
+
 function checkForTie(){
   for (let row of board) { return row.every(data => data !== null); }
 }
