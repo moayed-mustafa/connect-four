@@ -55,9 +55,11 @@ function makeHtmlBoard() {
 /** findSpotForCol: given column x, return top empty y (null if filled) */
 
 function findSpotForCol(x) {
-  // TODO: write the real version of this, rather than always returning 0
-  return 5;
 
+  console.log('x from the findspot for colum function', x);
+  for (let i = board.length - 1; i >= 0; i--){
+    if (board[i][x] === null) { return i }
+  }
 }
 
 /** placeInTable: update DOM to place piece into HTML table of board */
@@ -67,9 +69,7 @@ function placeInTable(y, x) {
   const tdPiece = document.createElement('div');
   tdPiece.classList.add('piece');
   tdPiece.classList.add('p1');
-  // console.log(tdPiece);
   let td = document.getElementById(`${y}-${x}`)
-  // console.log(td.childNodes[0]);
   td.append(tdPiece);
 
 }
@@ -86,10 +86,9 @@ function handleClick(evt) {
 
   // get x from ID of clicked cell
   let x = +evt.target.id;
-
   // get next spot in column (if none, ignore click)
   let y = findSpotForCol(x);
-  console.log(y);
+  console.log(x,y)
   if (y === null) {
     return;
   }
@@ -98,9 +97,10 @@ function handleClick(evt) {
   // TODO: add line to update in-memory board
   // should update the corresponding board column/row.
   placeInTable(y, x);
-  // board.push(3);
-  board[y][x] = 4;
+  // the cell should be filled with the player who filled the board
+  board[y][x] = 'red';
   console.log(board);
+
 
   // check for win
   if (checkForWin()) {
