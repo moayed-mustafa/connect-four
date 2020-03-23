@@ -9,6 +9,8 @@ let WIDTH = 7;
 let HEIGHT = 6;
 let currPlayer = 1; // active player: 1 or 2
 let board = []; // array of rows, each row is array of cells  (board[y][x])
+let lockBoard = false;
+let lockInfo = false;
 
 
 
@@ -18,28 +20,45 @@ let board = []; // array of rows, each row is array of cells  (board[y][x])
 function showInfo(messageDiv) {
   // create a div, p and a button
 
-
-  document.querySelector('#game').insertBefore(messageDiv, document.querySelector('#board'));
-  messageDiv.style.display = 'inline-block'
+  if (lockInfo === false) {
+    document.querySelector('#game').insertBefore(messageDiv, document.querySelector('#board'));
+    messageDiv.style.display = 'inline-block'
+    lockInfo = true
+  }
+  else {
+    return
+  }
 
 }
-function makeMessage(data) {
+function makeMessage(data, btnData) {
   const div = document.createElement('div');
   div.classList.add('info');
   const p = document.createElement('p');
   p.innerHTML = data;
   div.append(p);
   const button = document.createElement('button');
-  button.innerHTML = 'X';
-  button.addEventListener('click', removeInfo)
+  button.innerHTML = btnData;
+  btnData === 'X' ? button.addEventListener('click', removeMsg) : button.addEventListener('click', newGame)
+
   div.append(button);
 
   return div;
 }
 
-function removeInfo(e) {
+function removeMsg(e) {
   e.target.parentElement.remove();
 }
+
+function newGame() {
+  location.reload(true);
+  // setUpBoardForReMatch()
+
+}
+// function setUpBoardForReMatch() {
+//   makeBoard();
+//   makeHtmlBoard();
+//   lockBoard = true
+// }
 
 function makeBoard() {
   // should add p1 || p2 in this  array
@@ -101,12 +120,16 @@ function placeInTable(y, x) {
 /** endGame: announce game end */
 
 function endGame(msg) {
-  // TODO: pop up alert message
-  // todo: this function should append the div in the correct spot.
-  console.log(msg);
+
   msg.style.display = 'inline-block';
+  // setTimeout(function () {
+
+  // }, 5000)
   document.querySelector('#game').prepend(msg);
-  // document.body.insertBefore(msg, document.querySelector('h1'));
+  setTimeout(function () {
+    document.querySelector('#game').children[0].remove();
+    newGame();
+  },5000)
 
 }
 
@@ -130,15 +153,18 @@ function handleClick(evt) {
   // check for win
   if (checkForWin()) {
     // here you would want to call create message with this as it's p
-    const div = makeMessage(`Player ${currPlayer} won!`);
-    endGame(div);
+    const div = makeMessage(`Player ${currPlayer} won!`, `Play Again`);
+
+      endGame(div);
+
+
     // return endGame(`Player ${currPlayer} won!`);
   }
 
   // check for tie
   if (checkForTie()) {
     // here you would want to call create message with this as it's p
-    const div = makeMessage(`It's a tie`);
+    const div = makeMessage(`It's a tie`, `Play Again`);
     endGame(div);
     // return endGame(`It's a tie`);
   }
@@ -181,9 +207,15 @@ function checkForTie(){
   for (let row of board) { return row.every(data => data !== null); }
 }
 
-document.querySelector('#start-game').addEventListener('click', () => {
-  makeBoard();
-  makeHtmlBoard();
+document.querySelector('#start-game').addEventListener('click', (e) => {
+  if (lockBoard === false) {
+    console.log(e.target)
+    makeBoard();
+    makeHtmlBoard();
+    lockBoard = true
+  }
+  else {return }
+
 
 });
 document.querySelector('#info').addEventListener('click', () => {
@@ -194,6 +226,6 @@ document.querySelector('#info').addEventListener('click', () => {
   The game is won when a player makes four in a row
   (horizontally, vertically, or diagonally).
   The game is a tie if the entire board fills up without a winner.`
-  const div = makeMessage(innerHTMLForInfo);
+  const div = makeMessage(innerHTMLForInfo, 'X');
   showInfo(div);
 })
