@@ -15,29 +15,26 @@ let board = []; // array of rows, each row is array of cells  (board[y][x])
 /** makeBoard: create in-JS board structure:
  *    board = array of rows, each row is array of cells  (board[y][x])
  */
-function showInfo() {
+function showInfo(messageDiv) {
   // create a div, p and a button
+
+
+  document.querySelector('#game').insertBefore(messageDiv, document.querySelector('#board'));
+  messageDiv.style.display = 'inline-block'
+
+}
+function makeMessage(data) {
   const div = document.createElement('div');
   div.classList.add('info');
-// paragraph
-  const p = document.createElement('p')
-  p.innerHTML = `Connect Four is played on a grid, with two players,
-  1(red) and 2(yellow).The players alternate turns,
-  dropping a piece of their color in the top of a column.
-  The piece will fall down to the further - down unoccupied slot.
-  The game is won when a player makes four in a row
-  (horizontally, vertically, or diagonally).
-  The game is a tie if the entire board fills up without a winner.`
-  // button
+  const p = document.createElement('p');
+  p.innerHTML = data;
+  div.append(p);
   const button = document.createElement('button');
   button.innerHTML = 'X';
   button.addEventListener('click', removeInfo)
-  div.append(p)
-  div.append(button)
-  // document.querySelector('#game').append(div);
-  document.querySelector('#game').insertBefore(div, document.querySelector('#board'));
-  div.style.display = 'inline-block'
+  div.append(button);
 
+  return div;
 }
 
 function removeInfo(e) {
@@ -105,7 +102,12 @@ function placeInTable(y, x) {
 
 function endGame(msg) {
   // TODO: pop up alert message
-  alert(msg);
+  // todo: this function should append the div in the correct spot.
+  console.log(msg);
+  msg.style.display = 'inline-block';
+  document.querySelector('#game').prepend(msg);
+  // document.body.insertBefore(msg, document.querySelector('h1'));
+
 }
 
 /** handleClick: handle click of column top to play piece */
@@ -128,13 +130,17 @@ function handleClick(evt) {
   // check for win
   if (checkForWin()) {
     // here you would want to call create message with this as it's p
-    return endGame(`Player ${currPlayer} won!`);
+    const div = makeMessage(`Player ${currPlayer} won!`);
+    endGame(div);
+    // return endGame(`Player ${currPlayer} won!`);
   }
 
   // check for tie
   if (checkForTie()) {
     // here you would want to call create message with this as it's p
-    return endGame(`It's a tie`);
+    const div = makeMessage(`It's a tie`);
+    endGame(div);
+    // return endGame(`It's a tie`);
   }
 
   // switch players
@@ -181,5 +187,13 @@ document.querySelector('#start-game').addEventListener('click', () => {
 
 });
 document.querySelector('#info').addEventListener('click', () => {
-  showInfo();
+  const innerHTMLForInfo = `Connect Four is played on a grid, with two players,
+  1(red) and 2(yellow).The players alternate turns,
+  dropping a piece of their color in the top of a column.
+  The piece will fall down to the further - down unoccupied slot.
+  The game is won when a player makes four in a row
+  (horizontally, vertically, or diagonally).
+  The game is a tie if the entire board fills up without a winner.`
+  const div = makeMessage(innerHTMLForInfo);
+  showInfo(div);
 })
