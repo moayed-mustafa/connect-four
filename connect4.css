@@ -1,23 +1,48 @@
 /* game board table */
 body{
-  background:skyblue;
+  background:silver;
 }
 
 h1{
   text-align: center;
 }
 button{
-  margin: 0 auto;
+  margin: 10px auto;
+  padding: 20px;
+  border-radius: 5px;
   display: block;
+  color: #fff ;
+  text-transform: uppercase;
+  background-color: #cb3b29;
+  transition: all 0.5s ease 0s;
+}
+button:hover{
+  background-color: #3930bb;
+  letter-spacing: 3px;
+  transition: all 0.5s ease 0s;
+}
+.info{
+  border: solid black 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
 }
 #game{
-  display: flex;
-  justify-content: center;
+  /* display: flex;
+  justify-content: center; */
+  display: block;
+  margin: auto;
+  text-align: center;
+
 
 }
 #board{
-  margin: 2.5%;
-  background: yellow;
+  /* margin: 2.5%; */
+  background: black;
+  display: block;
+  margin: auto;
+  width: 27.5%;
 }
 #board td {
 

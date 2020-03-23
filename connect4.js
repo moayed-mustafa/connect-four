@@ -15,6 +15,26 @@ let board = []; // array of rows, each row is array of cells  (board[y][x])
 /** makeBoard: create in-JS board structure:
  *    board = array of rows, each row is array of cells  (board[y][x])
  */
+function showInfo() {
+  // create a div, p and a button
+  const div = document.createElement('div');
+  div.classList.add('info');
+
+  const p = document.createElement('p')
+  p.innerHTML = `Connect Four is played on a grid, with two players,
+  1(red) and 2(blue).The players alternate turns,
+  dropping a piece of their color in the top of a column.
+  The piece will fall down to the further - down unoccupied slot.
+  The game is won when a player makes four in a row
+  (horizontally, vertically, or diagonally).
+  The game is a tie if the entire board fills up without a winner.`
+  const button = document.createElement('button');
+  button.innerHTML = 'X'
+  div.append(p)
+  div.append(button)
+  // document.querySelector('#game').append(div);
+  document.body.append(div);
+}
 
 function makeBoard() {
   // should add p1 || p2 in this  array
@@ -125,14 +145,16 @@ function checkForWin() {
     );
   }
 
-  // TODO: read and understand this code. Add comments to help you.
 
+  // looping through the height and width
   for (let y = 0; y < HEIGHT; y++) {
     for (let x = 0; x < WIDTH; x++) {
+      // creating a four points line array horizantally, vertically and diagonally
       let horiz = [[y, x], [y, x + 1], [y, x + 2], [y, x + 3]];
       let vert = [[y, x], [y + 1, x], [y + 2, x], [y + 3, x]];
       let diagDR = [[y, x], [y + 1, x + 1], [y + 2, x + 2], [y + 3, x + 3]];
       let diagDL = [[y, x], [y + 1, x - 1], [y + 2, x - 2], [y + 3, x - 3]];
+      // checking if any of those arrays returns true using the win private function
       if (_win(horiz) || _win(vert) || _win(diagDR) || _win(diagDL)) { return true; }
 
     }
@@ -143,5 +165,11 @@ function checkForTie(){
   for (let row of board) { return row.every(data => data !== null); }
 }
 
-makeBoard();
-makeHtmlBoard();
+document.querySelector('#start-game').addEventListener('click', () => {
+  makeBoard();
+  makeHtmlBoard();
+
+});
+document.querySelector('#info').addEventListener('click', () => {
+  showInfo();
+})
