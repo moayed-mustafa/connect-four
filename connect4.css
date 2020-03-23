@@ -1,6 +1,7 @@
 /* game board table */
 body{
   background:silver;
+  font-family: 'Permanent Marker', cursive;
 }
 
 h1{
@@ -15,6 +16,7 @@ button{
   text-transform: uppercase;
   background-color: #cb3b29;
   transition: all 0.5s ease 0s;
+  font-family: 'Permanent Marker', cursive;
 }
 button:hover{
   background-color: #d8d40b;
@@ -23,14 +25,12 @@ button:hover{
 }
 
 #game{
-  /* display: flex;
-  justify-content: center; */
+
   display: block;
   margin: auto;
   text-align: center;
 }
 #board{
-  /* margin: 2.5%; */
   background: black;
   display: block;
   margin: auto;
@@ -59,24 +59,32 @@ button:hover{
   text-align: center;
 }
 
-/* pieces are div within game table cells: draw as colored circles */
 
 .piece {
-  /* TODO: make into circles */
   margin: 5px;
   width: 80%;
   height: 80%;
   border-radius: 50%;
+  animation-name : circle;
+  animation-duration: 3s;
+  animation-direction: normal;
+  animation-fill-mode:backwards;
+  position: relative;
 }
 
-/* TODO: make pieces red/blue,  depending on player 1/2 piece */
+@keyframes circle {
+  0%{ top: 300px; }
+  25%{ top: 250px; }
+  50%{ top: 150px; }
+  75%{ top: 100px; }
+
+}
 .piece.p1{
   background: red;
 }
 .piece.p2{
   background: yellow;
 }
-/* column-top is table row of clickable areas for each column */
 
 #column-top td {
   border: dashed 1px lightgray;
