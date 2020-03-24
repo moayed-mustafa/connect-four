@@ -29,6 +29,7 @@ button:hover{
   display: block;
   margin: auto;
   text-align: center;
+  position:relative;
 }
 #board{
   background: black;
@@ -51,9 +52,13 @@ button:hover{
   justify-content: center;
   padding: 5px;
   margin: 5px;
-  width: 20%;
-  background: #000;
-  color : #fff;
+  width: 27.5%;
+  background: rgba(255,255,255, 0.9);
+  color : #000;
+  position: absolute;
+  z-index:1;
+  right: 35%;
+  top:0px;
 }
 .info p{
   text-align: center;
@@ -64,15 +69,15 @@ button:hover{
   margin: 5px;
   width: 80%;
   height: 80%;
-  border-radius: 50%;
-  animation-name : circle;
+  border-radius: 20%;
+  animation-name : square;
   animation-duration: 3s;
   animation-direction: normal;
   animation-fill-mode:backwards;
   position: relative;
 }
 
-@keyframes circle {
+@keyframes square {
   0%{ top: 300px; }
   25%{ top: 250px; }
   50%{ top: 150px; }
@@ -90,6 +95,6 @@ button:hover{
   border: dashed 1px lightgray;
 }
 
-#column-top td:hover {
+/* #column-top td:hover {
   background-color: gold;
-}
+} */

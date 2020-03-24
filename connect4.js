@@ -12,6 +12,7 @@ let board = []; // array of rows, each row is array of cells  (board[y][x])
 let lockBoard = false;
 let lockInfo = false;
 
+
 // make the boards
 
 function makeBoard() {
@@ -41,7 +42,17 @@ function makeHtmlBoard() {
       row.append(cell);
     }
     htmlBoard.append(row);
+    document.querySelector('#column-top').addEventListener('mousemove', hoverColumnTop)
+
   }
+}
+function hoverColumnTop(e) {
+  currPlayer === 1 ? e.target.style.backgroundColor = 'red' : e.target.style.backgroundColor = 'yellow'
+  e.target.addEventListener('mouseleave',function () {
+    e.target.style.backgroundColor = 'black';
+  })
+  console.log(e.target.children)
+  // document.querySelector('#column-top td')
 }
 
 
@@ -184,7 +195,6 @@ function newGame() {
 function buttonHandling() {
   document.querySelector('#start-game').addEventListener('click', (e) => {
     if (lockBoard === false) {
-      console.log(e.target)
       makeBoard();
       makeHtmlBoard();
       lockBoard = true
